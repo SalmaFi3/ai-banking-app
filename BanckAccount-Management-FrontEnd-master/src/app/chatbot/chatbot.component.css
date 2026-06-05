@@ -1,0 +1,6 @@
+.chatbot-response {
+  white-space: pre-wrap;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+}
+

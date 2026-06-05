@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h4>New Customer</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
+        <!-- Name -->
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            formControlName="name"
+            placeholder="Enter customer name"
+            required
+          />
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Enter customer email"
+            required
+          />
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-success" [disabled]="newCustomerFormGroup.invalid">
+          Save Customer
+        </button>
+      </form>
+    </div>
+    
+  </div>
+  <div class="d-flex justify-content-center gap-3 mt-4">
+  <a routerLink="/home" class="btn btn-primary btn-lg">
+      <i class="home"></i> 🏠 Home 
+    </a>
+  <a routerLink="/customers" class="btn btn-primary btn-lg">
+      <i class="bi bi-person-plus"></i>  Customer List
+    </a>
+  </div>
+
+  
+</div>
