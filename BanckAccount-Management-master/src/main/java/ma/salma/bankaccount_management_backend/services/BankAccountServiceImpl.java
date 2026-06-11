@@ -2,10 +2,29 @@
 //C’est le cœur du projet.
 package ma.salma.bankaccount_management_backend.services;
 
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ma.salma.bankaccount_management_backend.dtos.*;
-import ma.salma.bankaccount_management_backend.entities.*;
+import ma.salma.bankaccount_management_backend.dtos.AccountHistoryDTO;
+import ma.salma.bankaccount_management_backend.dtos.AccountOperationDTO;
+import ma.salma.bankaccount_management_backend.dtos.BankAccountDTO;
+import ma.salma.bankaccount_management_backend.dtos.CurrentBankAccountDTO;
+import ma.salma.bankaccount_management_backend.dtos.CustomerDTO;
+import ma.salma.bankaccount_management_backend.dtos.SavingBankAccountDTO;
+import ma.salma.bankaccount_management_backend.entities.AccountOperation;
+import ma.salma.bankaccount_management_backend.entities.BankAccount;
+import ma.salma.bankaccount_management_backend.entities.CurrentAccount;
+import ma.salma.bankaccount_management_backend.entities.Customer;
+import ma.salma.bankaccount_management_backend.entities.SavingAccount;
 import ma.salma.bankaccount_management_backend.enums.OperationType;
 import ma.salma.bankaccount_management_backend.exceptions.BalanceNotSufficientException;
 import ma.salma.bankaccount_management_backend.exceptions.BankAccountNotFoundEcxeption;
@@ -14,17 +33,6 @@ import ma.salma.bankaccount_management_backend.mappers.BankAccountMapperImpl;
 import ma.salma.bankaccount_management_backend.repositories.AccountOperationRepository;
 import ma.salma.bankaccount_management_backend.repositories.BankAccountRepository;
 import ma.salma.bankaccount_management_backend.repositories.CustomerRepository;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-//import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -99,6 +107,9 @@ public class BankAccountServiceImpl implements BankAccountService{
 
     @Override
     public void debit(String accountId, double amount, String description) throws BankAccountNotFoundEcxeption, BalanceNotSufficientException { // Crediter c est le fait de retirer l argent de votre compte
+        // Validation ajoutée par Doha — le montant doit être positif
+        if (amount <= 0)
+            throw new IllegalArgumentException("Le montant du débit doit être strictement positif");
         BankAccount bankAccount = bankAccountRepository.findById(accountId)
                 .orElseThrow(
                         () -> new BankAccountNotFoundEcxeption("BankAccount not found")
