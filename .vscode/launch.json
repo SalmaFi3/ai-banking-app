@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "BdccAiAgentApplication",
+            "request": "launch",
+            "mainClass": "org.example.bdccaiagent.BdccAiAgentApplication",
+            "projectName": "demo-spring-ai-agent"
+        },
+        {
+            "type": "java",
+            "name": "BankAccountManagementBackendApplication",
+            "request": "launch",
+            "mainClass": "ma.salma.bankaccount_management_backend.BankAccountManagementBackendApplication",
+            "projectName": "BankAccount_Management_Backend"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "BankAccountManagementBackendApplication",
+            "request": "launch",
+            "mainClass": "ma.youssef.bankaccount_management_backend.BankAccountManagementBackendApplication",
+            "projectName": "BankAccount_Management_Backend"
+        }
+    ]
+}
