@@ -1,6 +1,6 @@
 package ma.salma.bankaccount_management_backend.services;
 
-// Tests unitaires écrits par Gemini CLI — Role Testing Lead
+// Tests unitaires écrits par Aymen Najah — Role Testing Lead
 
 import ma.salma.bankaccount_management_backend.dtos.CurrentBankAccountDTO;
 import ma.salma.bankaccount_management_backend.dtos.CustomerDTO;
