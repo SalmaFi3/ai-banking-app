@@ -31,6 +31,7 @@ public class BankAccountManagementBackendApplication {
     }
 
     @Bean
+    @org.springframework.context.annotation.Profile("!test")
     CommandLineRunner commandLineRunner(BankAccountService bankAccountService) {
         return args -> {
           Stream.of("Salma", "Doha" , "Hafssa","Wissal").forEach(name -> {
