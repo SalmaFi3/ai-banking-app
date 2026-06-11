@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Chatbot</h5>
+
+      <div class="mb-3">
+        <label class="form-label fw-bold">Votre question :</label>
+        <div class="d-flex gap-2">
+          <input
+            [(ngModel)]="query"
+            type="text"
+            class="form-control"
+            placeholder="Entrez votre question ici..."
+          />
+          <button class="btn btn-outline-primary" (click)="askAgent()">Envoyer</button>
+        </div>
+      </div>
+
+      <div *ngIf="loading" class="mt-2">
+        <div class="spinner-border text-primary spinner-border-sm" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+        <span class="ms-2">Le chatbot réfléchit...</span>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger mt-3">
+        {{ error }}
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="response" class="card mt-3">
+    <div class="card-header fw-bold">Réponse du chatbot</div>
+    <div class="card-body">
+      <pre class="mb-0 chatbot-response">{{ response }}</pre>
+    </div>
+  </div>
+</div>
+
