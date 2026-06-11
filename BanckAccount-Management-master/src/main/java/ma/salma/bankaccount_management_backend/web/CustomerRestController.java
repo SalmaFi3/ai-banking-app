@@ -4,7 +4,7 @@ package ma.salma.bankaccount_management_backend.web;
 
 import lombok.AllArgsConstructor;
 import ma.salma.bankaccount_management_backend.dtos.CustomerDTO;
-import ma.salma.bankaccount_management_backend.exceptions.CustomerNotFoundException;
+import ma.salma.bankaccount_management_backend.exceptions.CustomerNotFoundEcxeption;
 import ma.salma.bankaccount_management_backend.services.BankAccountService;
 
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class CustomerRestController {
     }
 
     @GetMapping("customers/{id}")
-    public CustomerDTO getCustomer(@PathVariable(name = "id") Long customerId) throws CustomerNotFoundException {
+    public CustomerDTO getCustomer(@PathVariable(name = "id") Long customerId) throws CustomerNotFoundEcxeption {
         return bankAccountService.getCustomerDTO(customerId);
     }
 
@@ -34,18 +34,18 @@ public class CustomerRestController {
 
 
     @PostMapping("/customers")
-    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) throws CustomerNotFoundException {
+    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) throws CustomerNotFoundEcxeption {
         return bankAccountService.saveCustomer(customerDTO);
     }
 
     @PutMapping("/customers/{customerId}")
-    public CustomerDTO updateCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO) throws CustomerNotFoundException {
+    public CustomerDTO updateCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO) throws CustomerNotFoundEcxeption {
         customerDTO.setId( customerId );
         return bankAccountService.updateCustomer(customerDTO);
     }
 
     @DeleteMapping("/customers/{id}")
-    public void deleteCustomer(@PathVariable(name = "id") Long customerId) throws CustomerNotFoundException {
+    public void deleteCustomer(@PathVariable(name = "id") Long customerId) throws CustomerNotFoundEcxeption {
         bankAccountService.deleteCustomer(customerId);
     }
 

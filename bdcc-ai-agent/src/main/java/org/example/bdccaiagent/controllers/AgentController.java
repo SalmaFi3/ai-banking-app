@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @CrossOrigin("*")
@@ -17,14 +17,17 @@ public class AgentController {
     }
 
     @GetMapping(value = "/askAgent", produces = MediaType.TEXT_PLAIN_VALUE)
-    public Flux<String> chat(String query) {
+    public Mono<String> chat(String query) {
         if (query == null || query.trim().isEmpty()) {
-            return Flux.just("Veuillez poser une question.");
+            return Mono.just("Veuillez poser une question.");
         }
         
+        // Collecte tous les chunks du Flux en une seule chaîne
         return agent.onQuery(query)
+                .collectList()
+                .map(chunks -> String.join("", chunks))
                 .onErrorResume(error -> {
-                    return Flux.just("Erreur lors de la génération de la réponse: " + 
+                    return Mono.just("Erreur lors de la génération de la réponse: " + 
                             (error.getMessage() != null ? error.getMessage() : "Erreur inconnue"));
                 });
     }

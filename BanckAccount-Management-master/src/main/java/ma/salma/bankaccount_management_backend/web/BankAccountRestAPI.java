@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import ma.salma.bankaccount_management_backend.dtos.AccountHistoryDTO;
 import ma.salma.bankaccount_management_backend.dtos.AccountOperationDTO;
 import ma.salma.bankaccount_management_backend.dtos.BankAccountDTO;
-import ma.salma.bankaccount_management_backend.exceptions.BankAccountNotFoundException;
+import ma.salma.bankaccount_management_backend.exceptions.BankAccountNotFoundEcxeption;
 import ma.salma.bankaccount_management_backend.services.BankAccountService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BankAccountRestAPI {
@@ -22,7 +23,7 @@ public class BankAccountRestAPI {
     }
 
     @GetMapping("/accounts/{accountId}")
-    public BankAccountDTO getBankAccount(@PathVariable String accountId) throws BankAccountNotFoundException {
+    public BankAccountDTO getBankAccount(@PathVariable String accountId) throws BankAccountNotFoundEcxeption {
         return bankAccountService.getBankAccount(accountId);
     }
 
@@ -39,7 +40,17 @@ public class BankAccountRestAPI {
     @GetMapping("/accounts/{accountId}/pageOperations")
     public AccountHistoryDTO getAccountHistory(@PathVariable String accountId,
                                                @RequestParam(name = "page", defaultValue = "0") int page,
-                                               @RequestParam(name = "size", defaultValue = "5") int size) throws BankAccountNotFoundException {
+                                               @RequestParam(name = "size", defaultValue = "5") int size) throws BankAccountNotFoundEcxeption {
         return bankAccountService.getAccountHistory(accountId, page, size);
+    }
+
+    // Endpoint ajouté par Doha — recherche de comptes par solde minimum
+    @GetMapping("/accounts/search")
+    public List<BankAccountDTO> searchAccountsByMinBalance(
+            @RequestParam(name = "minBalance", defaultValue = "0") double minBalance) {
+        return bankAccountService.bankAccountList()
+                .stream()
+                .filter(acc -> acc.getBalance() >= minBalance)
+                .collect(Collectors.toList());
     }
 }
