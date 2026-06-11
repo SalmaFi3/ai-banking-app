@@ -11,6 +11,7 @@ import ma.salma.bankaccount_management_backend.exceptions.BankAccountNotFoundEcx
 import ma.salma.bankaccount_management_backend.services.BankAccountService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BankAccountRestAPI {
@@ -41,5 +42,15 @@ public class BankAccountRestAPI {
                                                @RequestParam(name = "page", defaultValue = "0") int page,
                                                @RequestParam(name = "size", defaultValue = "5") int size) throws BankAccountNotFoundEcxeption {
         return bankAccountService.getAccountHistory(accountId, page, size);
+    }
+
+    // Endpoint ajouté par Doha — recherche de comptes par solde minimum
+    @GetMapping("/accounts/search")
+    public List<BankAccountDTO> searchAccountsByMinBalance(
+            @RequestParam(name = "minBalance", defaultValue = "0") double minBalance) {
+        return bankAccountService.bankAccountList()
+                .stream()
+                .filter(acc -> acc.getBalance() >= minBalance)
+                .collect(Collectors.toList());
     }
 }
